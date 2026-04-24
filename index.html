@@ -6,6 +6,24 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Developer Experience Pages (Copy)</title>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+    <script>
+      // Reconstruct URL from the ?p= param written by 404.html
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+        var q = window.location.search;
+        if (q && q.indexOf('?p=/') === 0) {
+          var path = q.slice(3).replace(/~and~/g, '&');
+          var qs = path.indexOf('&q=');
+          var search = qs > -1 ? '?' + path.slice(qs + 3).replace(/~and~/g, '&') : '';
+          path = qs > -1 ? path.slice(0, qs) : path;
+          history.replaceState(null, null, '/twilio-dx-prototype' + path + search + location.hash);
+        }
+      })();
+    </script>
       <script type="module" crossorigin src="/twilio-dx-prototype/assets/index-DRfDutL-.js"></script>
       <link rel="stylesheet" crossorigin href="/twilio-dx-prototype/assets/index-B1vHHzE2.css">
     </head>
